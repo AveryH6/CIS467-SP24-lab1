@@ -181,7 +181,7 @@ app.get('/api/v1/prayers', async (req,res)=> {
     try{
         const conn = await pool.getConnection();
         console.log(req.user)
-        const [prayers, ] = await conn.query("SELECT * FROM prayers")
+        const [prayers, ] = await conn.query("SELECT prayers.prayerID, prompt, body, coverImage, audioRecitation, aiCreator, userID, verses FROM prayers JOIN prayerscreators ON prayers.prayerID=prayerscreators.prayerID JOIN prayersscriptures ON prayers.prayerID=prayersscriptures.prayerID JOIN scriptures ON prayersscriptures.scriptureID=scriptures.scriptureID")
 
         conn.release()
 
@@ -197,7 +197,7 @@ app.get('/api/v1/prayers/:id', async (req, res)=> {
     try {
         const conn = await pool.getConnection();
         console.log(req.user)
-        const [prayers, ] = await conn.query("SELECT * FROM prayers WHERE prayerID=" + req.params.id)
+        const [prayers, ] = await conn.query("SELECT prayers.prayerID, prompt, body, coverImage, audioRecitation, aiCreator, userID, verses FROM prayers JOIN prayerscreators ON prayers.prayerID=prayerscreators.prayerID JOIN prayersscriptures ON prayers.prayerID=prayersscriptures.prayerID JOIN scriptures ON prayersscriptures.scriptureID=scriptures.scriptureID WHERE prayers.prayerID=" + req.params.id)
 
         conn.release()
 
